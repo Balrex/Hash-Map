@@ -107,7 +107,7 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
         this.m = newM;
     }
 
-    public void DelAll(){          // очистак хеш-таблицы
+    public void DelAll(){          // очистка хеш-таблицы
         if (head == null || allNumb == 0)
             System.out.println("Таблица и так пуста. Остановись!");
         for (int i=0; i<head.size(); ++i)
