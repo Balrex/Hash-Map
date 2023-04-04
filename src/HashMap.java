@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.stream.IntStream;
 
-import static java.lang.Math.floor;
 import static java.lang.Math.sqrt;
 
 public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
@@ -41,7 +40,7 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
         } else
             System.out.println("Выявлена проблема с ключом " + key + "! Добаление элемента не произошло.");
     }
-    private int CountHeshKey(Object key, int mod){                 // расчет, по ключу любого типа, целочисленного хеш-ключа
+    private int CountHeshKey(Object key, int mod){                 // расчет по ключу любого типа целочисленного хеш-ключа
         int heshKey=-5;
         if (key instanceof String) {
             String[] tmpMas = ((String) key).split("");
@@ -71,7 +70,8 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
                         break;
                     }
                 return orig;
-            }
+            }else
+                System.out.println("В хеш-дереве нет значения по такому ключу.");
             return orig;
         }
     }
@@ -108,9 +108,10 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
     }
 
     public void DelAll(){          // очистак хеш-таблицы
-        if (head == null)
-            System.out.println("Таблица и так пуста. Остановись уже!");
-        head.clear();
+        if (head == null || allNumb == 0)
+            System.out.println("Таблица и так пуста. Остановись!");
+        for (int i=0; i<head.size(); ++i)
+            head.set(i, null);
         System.out.println("Хеш-таблица очищена!");
         a = 0.0;
         allNumb = 0;
@@ -140,22 +141,25 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
         return answer;
     }
     public void DelEl (T1 key){             // удаление пары по ключу
-        if (head == null)
+        if (head == null || allNumb == 0)
             System.out.println("Таблица и так пуста");
         else {
             int heshKey = CountHeshKey(key, this.m);
-            int marker = 0, size = 0;
+            int size = 0;
+            boolean marker = true;
             if (head.get(heshKey) != null)
                 size = head.get(heshKey).size();
             for (int j=0; j<size; ++j)
                 if (key.compareTo(head.get(heshKey).get(j).key) == 0){
-                    marker = 1;
+                    marker = false;
                     head.set(heshKey, AddDelStroc(head.get(heshKey), key, null, false));
                     System.out.println("Значение по ключу "+key+" удалено из таблицы.");
+                    -- allNumb;
+                    a = (double) allNumb/m;
                     break;
                 }
 
-            if (marker == 0)
+            if (marker)
                 System.out.println("В хеш-дереве нет значения по такому ключу");
         }
     }
