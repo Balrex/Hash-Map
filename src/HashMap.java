@@ -142,7 +142,7 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
     }
     public void DelEl (T1 key){             // удаление пары по ключу
         if (head == null || allNumb == 0)
-            System.out.println("Таблица и так пуста");
+            System.out.println("Таблица пуста.");
         else {
             int heshKey = CountHeshKey(key, this.m);
             int size = 0;
@@ -161,6 +161,28 @@ public class HashMap <T1 extends Comparable<T1>, T2> implements Comparable<T1> {
 
             if (marker)
                 System.out.println("В хеш-дереве нет значения по такому ключу");
+        }
+    }
+    public void RewriteEl(T1 key , T2 data){            // изменение данных в паре по ключу
+        if (head == null || allNumb == 0)
+            System.out.println("Таблица пуста.");
+        else {
+            int heshKey = CountHeshKey(key, this.m);
+            int size = 0;
+            boolean marker = true;
+            if (head.get(heshKey) != null)
+                size = head.get(heshKey).size();
+            for (int j=0; j<size; ++j)
+                if (key.compareTo(head.get(heshKey).get(j).key) == 0){
+                    marker = false;
+                    head.set(heshKey, AddDelStroc(head.get(heshKey), key, null, false));
+                    head.set(heshKey, AddDelStroc(head.get(heshKey), key, data, true));
+                    System.out.println("Значение по ключу "+key+" исправлено.");
+                    break;
+                }
+
+            if (marker)
+                System.out.println("В хеш-дереве нет значения по такому ключу.");
         }
     }
     public void ReHashing(){        // перехеширование по желанию пользователя
